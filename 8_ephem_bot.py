@@ -16,7 +16,6 @@ import logging
 
 from ephem import constellation
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from datetime import datetime, date, time
 import settings
 import ephem
 
@@ -30,18 +29,6 @@ zodiacs = {'Aries': 'Овен', 'Leo': 'Лев', 'Sagittarius': 'Стрелец'
             'Gemini': 'Близнецы', 'Libra,': 'Весы', 'Aquarius': 'Водолей',
            'Cancer': 'Рак', 'Scorpio': 'Скорпион', 'Pisces': 'Рыбы', 'Ophiuchus': 'Змееносец'}
 
-planets = {
-'mars': ephem.Mars(datetime.now().strftime('%Y/%m/%d')),
-'mercury': ephem.Mercury(datetime.now().strftime('%Y/%m/%d')),
-'venus': ephem.Venus(datetime.now().strftime('%Y/%m/%d')),
-'jupiter': ephem.Jupiter(datetime.now().strftime('%Y/%m/%d')),
-'saturn': ephem.Saturn(datetime.now().strftime('%Y/%m/%d')),
-'uranus': ephem.Uranus(datetime.now().strftime('%Y/%m/%d')),
-'neptune': ephem.Neptune(datetime.now().strftime('%Y/%m/%d'))
-}
-
-# Внесла (datetime.now().strftime('%Y/%m/%d')) в словарь, потому что иначе planets.get(user_text)
-# возвращал <class 'ephem.Neptune'>, и ephem.constellation(planet) не работал
 
 def greet_user(update, context):
     print('Вызван /start')
@@ -52,14 +39,43 @@ def planet_check(update, context):
     if len(update.message.text.lower().split()) < 2:
         update.message.reply_text('Некорректный запрос')
     user_text = update.message.text.lower().split()[1]
-    planet_func = planets.get(user_text)
-    print(planet_func)
-    if planet_func is None:
-        update.message.reply_text('Некорректный запрос')
-    else:
-        planet = planet_func
+    if user_text == 'mars':
+        planet = ephem.Mars('2024/11/29')
         constellation = ephem.constellation(planet)
+        print(constellation)
         update.message.reply_text(zodiacs[constellation[1]])
+    elif user_text == 'mercury':
+        planet = ephem.Mercury('2024/11/29')
+        constellation = ephem.constellation(planet)
+        print(constellation)
+        update.message.reply_text(zodiacs[constellation[1]])
+    elif user_text == 'venus':
+        planet = ephem.Venus('2024/11/29')
+        constellation = ephem.constellation(planet)
+        print(constellation)
+        update.message.reply_text(zodiacs[constellation[1]])
+    elif user_text == 'jupiter':
+        planet = ephem.Jupiter('2024/11/29')
+        constellation = ephem.constellation(planet)
+        print(constellation)
+        update.message.reply_text(zodiacs[constellation[1]])
+    elif user_text == 'saturn':
+        planet = ephem.Saturn('2024/11/29')
+        constellation = ephem.constellation(planet)
+        print(constellation)
+        update.message.reply_text(zodiacs[constellation[1]])
+    elif user_text == 'uranus':
+        planet = ephem.Uranus('2024/11/29')
+        constellation = ephem.constellation(planet)
+        print(constellation)
+        update.message.reply_text(zodiacs[constellation[1]])
+    elif user_text == 'neptune':
+        planet = ephem.Neptune('2024/11/29')
+        constellation = ephem.constellation(planet)
+        print(constellation)
+        update.message.reply_text(zodiacs[constellation[1]])
+    else:
+        update.message.reply_text('Некорректный запрос')
 
 
 def main():
